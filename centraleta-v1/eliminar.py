@@ -12,7 +12,7 @@ conn = psycopg2.connect(DATABASE_URL)
 cursor = conn.cursor()
 
 # Eliminar tablas si existen
-tablas_a_eliminar = ["missatges"]
+tablas_a_eliminar = ["reverberadors"]
 
 for tabla in tablas_a_eliminar:
     try:

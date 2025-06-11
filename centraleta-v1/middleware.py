@@ -6,8 +6,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 from db import crear_tablas, guardar_missatge, obtenir_destinataris_actius, tancar_connexio
 from mailer import reenviar_correu
-from uploader import pujar_adjunt
+from uploader import obtenir_urls_adjunt_hyperkitty
 from reverberacions import processar_reverberacio
+import re
+from email.utils import parseaddr
 
 load_dotenv()
 
@@ -44,34 +46,46 @@ def llegir_i_processar():
         except Exception:
             pass
 
-        cos = ""
-        llista_enllacos = []
+        # 🔍 Intentar detectar la llista des del header List-Id
+        list_id_header = msg.get('List-Id')
+        llista = None
+        if list_id_header:
+            llista = list_id_header.strip('<>').split('.')[0] + '@raio.issim.net'
 
+        # 🔗 Obtenir enllaços d’adjunts des d’HyperKitty
+        llista_enllacos = []
+        if llista:
+            llista_enllacos = obtenir_urls_adjunt_hyperkitty(msg, llista)
+
+        # 📩 Cos del missatge
+        cos = ""
         if msg.is_multipart():
             for part in msg.walk():
-                content_disposition = part.get_content_disposition()
                 content_type = part.get_content_type()
-
-                if content_disposition == "attachment":
-                    nom = part.get_filename()
-                    contingut = part.get_payload(decode=True)
-                    url = pujar_adjunt(nom, contingut)
-                    if url:
-                        llista_enllacos.append(url)
-
-                elif content_type == "text/plain" and not cos:
+                if content_type == "text/plain" and not cos:
                     cos = part.get_content()
         else:
             cos = msg.get_content()
 
+        # EXTRAER LOS ADJUNTOS REALES
+        adjunts = []
+        if msg.is_multipart():
+            for part in msg.walk():
+                content_disposition = part.get("Content-Disposition", "")
+                if content_disposition and "attachment" in content_disposition:
+                    filename = part.get_filename()
+                    payload = part.get_payload(decode=True)
+                    content_type = part.get_content_type()
+                    adjunts.append((filename, payload, content_type))
+
         # ✨ Comprovem si hi ha ID centraleta al cos
-        import re
         pattern = r"\[centraleta-id: ([0-9a-fA-F-]{36})\]"
+
         match = re.search(pattern, cos)
         if match:
             centraleta_id = match.group(1)
             print(f"📌 Detectat identificador del missatge original: {centraleta_id}")
-            processar_reverberacio(msg, centraleta_id)  # <-- PASAR el ID aquí
+            processar_reverberacio(msg, centraleta_id)
             continue
 
         # 👉 Si no és resposta, ho tractem com a missatge nou
@@ -82,16 +96,17 @@ def llegir_i_processar():
             cos_modificat = cos
 
         message_id = msg.get("Message-ID")
-        from email.utils import parseaddr
         nom, correu_net = parseaddr(remitent)
-        remitent_net = correu_net  # Solo el email limpio
+        remitent_net = correu_net
+        cc = msg.get("Cc")
         id_msg = guardar_missatge(
             assumpte,
             remitent_net,
             cos_original,
             data_obj,
             adjunts="\n".join(llista_enllacos) if llista_enllacos else None,
-            message_id=message_id
+            message_id=message_id,
+            cc=cc
         )
 
         # 🔗 Afegim ID al cos reenviat
@@ -99,10 +114,9 @@ def llegir_i_processar():
 
         destinataris = obtenir_destinataris_actius()
         if destinataris:
-            reenviar_correu(destinataris, assumpte, cos_modificat)
+            reenviar_correu(destinataris, assumpte, cos_modificat, adjunts)
         else:
             print("⚠️ No hi ha reverberadors actius.")
-
 
     imap.logout()
     tancar_connexio()

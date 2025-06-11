@@ -10,9 +10,9 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 # Lista de reverberadors con categorías y url de ejemplo
 reverberadors = [
     {
-        "correu": "info@azaharacerezo.com",
+        "correu": "cerezo.azahara@gmail.com",
         "categoria": "haikus",
-        "url": "",
+        "url": "acerezoce@uoc.edu",
     }
 ]
 

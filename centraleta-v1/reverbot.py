@@ -1,3 +1,4 @@
+#el reverbot va a part d'aquest codi
 import random, time, os
 from datetime import datetime
 from nextcloud import obtenir_client_nextcloud, descarregar_fitxer

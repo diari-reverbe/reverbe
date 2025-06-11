@@ -12,35 +12,40 @@ cursor = conn.cursor()
 
 def crear_tablas():
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS missatges (
-        id UUID PRIMARY KEY,
-        assumpte TEXT,
-        remitent TEXT,
-        cos TEXT,
-        data TIMESTAMP,
-        adjunts TEXT,
-        message_id TEXT UNIQUE
-    );
-
-    CREATE TABLE IF NOT EXISTS missatges_reverberats (
-        id UUID PRIMARY KEY,
-        missatge_original_id UUID REFERENCES missatges(id),
-        assumpte TEXT,
-        remitent TEXT,
-        cos TEXT,
-        data TIMESTAMP,
-        in_reply_to TEXT,
-        adjunts TEXT
-    );
-
-    CREATE TABLE IF NOT EXISTS reverberadors (
-        id UUID PRIMARY KEY,
-        correu TEXT,
-        estat TEXT,
-        categoria TEXT,
-        url TEXT
-    );
+        CREATE TABLE IF NOT EXISTS missatges (
+            id UUID PRIMARY KEY,
+            assumpte TEXT,
+            remitent TEXT,
+            cos TEXT,
+            data TIMESTAMP,
+            adjunts TEXT,
+            message_id TEXT UNIQUE
+        );
     """)
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS missatges_reverberats (
+            id UUID PRIMARY KEY,
+            missatge_original_id UUID REFERENCES missatges(id),
+            assumpte TEXT,
+            remitent TEXT,
+            cos TEXT,
+            data TIMESTAMP,
+            in_reply_to TEXT,
+            adjunts TEXT
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS reverberadors (
+            id UUID PRIMARY KEY,
+            correu TEXT,
+            estat TEXT,
+            categoria TEXT,
+            url TEXT
+        );
+    """)
+    
     conn.commit()
 
 def obtenir_connexio():
@@ -50,15 +55,15 @@ def obtenir_connexio():
         cursor = conn.cursor()
     return conn
 
-def guardar_missatge(assumpte, remitent, cos, data_obj, adjunts=None, message_id=None):
+def guardar_missatge(assumpte, remitent, cos, data_obj, adjunts=None, message_id=None, cc=None):
     conn = obtenir_connexio()
     cursor = conn.cursor()
 
     id_msg = str(uuid.uuid4())
     cursor.execute("""
-        INSERT INTO missatges (id, assumpte, remitent, cos, data, adjunts, message_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (id_msg, assumpte, remitent, cos, data_obj, adjunts, message_id))
+        INSERT INTO missatges (id, assumpte, remitent, cos, data, adjunts, message_id, cc)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """, (id_msg, assumpte, remitent, cos, data_obj, adjunts, message_id, cc))
 
     conn.commit()
     cursor.close()
@@ -124,6 +129,16 @@ def obtenir_remitent_per_id(missatge_id):
     resultat = cursor.fetchone()
     cursor.close()
     return resultat[0] if resultat else None
+
+def obtenir_cc_per_id(missatge_id):
+    conn = obtenir_connexio()
+    cursor = conn.cursor()
+    cursor.execute("SELECT cc FROM missatges WHERE id = %s", (missatge_id,))
+    result = cursor.fetchone()
+    cursor.close()
+    if result:
+        return result[0]
+    return None
 
 def tancar_connexio():
     global conn, cursor
