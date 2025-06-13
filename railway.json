@@ -2,10 +2,11 @@
   "build": {
     "root": "centraleta-v1"
   },
+  "start": "python3 middleware.py",
   "crons": [
     {
       "command": "python3 middleware.py",
-      "schedule": "0 */3 * * *"
+      "schedule": "0 */2 * * *"
     }
   ]
 }
