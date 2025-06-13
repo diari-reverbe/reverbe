@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 middleware.py
+python3 main.py
