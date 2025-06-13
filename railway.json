@@ -2,7 +2,7 @@
   "build": {
     "root": "centraleta-v1"
   },
-  "start": "python3 middleware.py",
+  "start": "./start.sh",
   "crons": [
     {
       "command": "python3 middleware.py",

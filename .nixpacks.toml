@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ['python3', 'gcc', 'postgresql']
+
+[phases.install]
+cmds = ['pip install -r centraleta-v1/requirements.txt']
+
+[start]
+cmd = 'python3 centraleta-v1/middleware.py'
