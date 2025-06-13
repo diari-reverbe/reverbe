@@ -5,7 +5,7 @@
   "start": "./start.sh",
   "crons": [
     {
-      "command": "python3 middleware.py",
+      "command": "python3 main.py",
       "schedule": "0 */2 * * *"
     }
   ]
