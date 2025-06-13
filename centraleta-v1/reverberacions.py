@@ -43,7 +43,9 @@ def processar_reverberacio(msg, missatge_original_id):
     if not message_id:
         print("⚠️ Missatge sense Message-ID. Ignorat.")
         return
-
+    # agafar el nom dels adjunts (no podem agafar la ruta completa encara -> revisar)
+    adjunts = ", ".join(filename for filename, _, _ in adjunts) if adjunts else None
+    
     from email.utils import parseaddr
     nom, correu_net = parseaddr(remitent)
     remitent_net = correu_net  # email limpio
@@ -53,7 +55,8 @@ def processar_reverberacio(msg, missatge_original_id):
         remitent_net,
         cos,
         data_obj,
-        in_reply_to=message_id
+        in_reply_to=message_id,
+        adjunts=adjunts
     )
 
     autor_original_cc = obtenir_cc_per_id(missatge_original_id)
@@ -72,8 +75,8 @@ def processar_reverberacio(msg, missatge_original_id):
     if url_reverberador:
         destinataris.append(url_reverberador)
 
-    # PASAR adjunts al reenviar
-    reenviar_correu(destinataris, assumpte, cos, adjunts)
+    # descomentar quan es vulgui posar en marxa realment, ara imprimirà en pantalla a qui reenviaria
+    #reenviar_correu(destinataris, assumpte, cos, adjunts)
 
     print("📤 (Simulació) Es reenviaria a:", destinataris)
     print("🔍 Reverberador trobat:", reverberador)
