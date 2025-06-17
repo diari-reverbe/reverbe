@@ -12,7 +12,7 @@ conn = psycopg2.connect(DATABASE_URL)
 cursor = conn.cursor()
 
 # Tablas a vaciar
-tablas_a_vaciar = ["missatges"]
+tablas_a_vaciar = ["missatges", "reverberadors"]
 
 for tabla in tablas_a_vaciar:
     try:
