@@ -74,5 +74,5 @@ def processar_reverberacio(msg, missatge_original_id):
     destinataris = [cc_original]
 
     # reenviar
-    reenviar_correu(destinataris, assumpte, cos, adjunts)
+    # reenviar_correu(destinataris, assumpte, cos, adjunts)
     print("📤 (Simulació) Es reenviaria a:", destinataris)

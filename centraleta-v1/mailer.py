@@ -21,7 +21,7 @@ def reenviar_correu(destinataris, assumpte, cos_original, adjunts=None, reply_to
             msg = MIMEMultipart()
             msg["From"] = EMAIL_USER
             msg["To"] = dest
-            msg["Subject"] = f"[Centraleta] {assumpte}"
+            msg["Subject"] = f"{assumpte}"
             msg['Message-ID'] = email.utils.make_msgid()
             if reply_to:
                 msg.add_header("Reply-To", reply_to)
