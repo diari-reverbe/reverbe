@@ -105,8 +105,9 @@ def obtenir_missatge_original_per_message_id(message_id):
     return result[0] if result else None
 
 def obtenir_destinataris_actius():
-    cursor.execute("SELECT correu FROM reverberadors WHERE estat = 'actiu'")
-    return [r[0] for r in cursor.fetchall()]
+    cursor.execute("SELECT correu, url FROM reverberadors WHERE estat = 'actiu'")
+   # return [r[0] for r in cursor.fetchall()]
+    return cursor.fetchall()
 
 def obtenir_reverberadors():
     cursor.execute("SELECT correu FROM reverberadors")
@@ -129,6 +130,16 @@ def obtenir_remitent_per_id(missatge_id):
     resultat = cursor.fetchone()
     cursor.close()
     return resultat[0] if resultat else None
+
+def obtenir_reverberador_per_url(url):
+    conn = obtenir_connexio()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT correu, url FROM reverberadors WHERE estat = 'actiu'
+    """)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
 
 def obtenir_cc_per_id(missatge_id):
     conn = obtenir_connexio()

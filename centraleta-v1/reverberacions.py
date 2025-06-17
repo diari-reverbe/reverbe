@@ -1,12 +1,12 @@
+# reverberacions.py
 from db import (
     guardar_missatge_reverberat,
-    obtenir_missatge_original_per_message_id,
-    obtenir_remitent_per_id,
-    obtenir_reverberador_per_correu,
-    obtenir_cc_per_id
+    obtenir_cc_per_id,
+    obtenir_reverberador_per_url
 )
 from mailer import reenviar_correu
 from datetime import datetime
+from email.utils import parseaddr
 
 def processar_reverberacio(msg, missatge_original_id):
     assumpte = msg["subject"]
@@ -19,7 +19,7 @@ def processar_reverberacio(msg, missatge_original_id):
     except Exception:
         data_obj = datetime.now()
 
-    # Extraer el cuerpo de texto plano
+    # ✉️ Cos
     cos = ""
     if msg.is_multipart():
         for part in msg.walk():
@@ -29,7 +29,7 @@ def processar_reverberacio(msg, missatge_original_id):
     else:
         cos = msg.get_content()
 
-    # EXTRAER ADJUNTOS
+    # Adjunts (extreure noms)
     adjunts = []
     if msg.is_multipart():
         for part in msg.walk():
@@ -39,16 +39,22 @@ def processar_reverberacio(msg, missatge_original_id):
                 payload = part.get_payload(decode=True)
                 content_type = part.get_content_type()
                 adjunts.append((filename, payload, content_type))
+    adjunts_str = ", ".join(filename for filename, _, _ in adjunts) if adjunts else None
 
     if not message_id:
         print("⚠️ Missatge sense Message-ID. Ignorat.")
         return
-    # agafar el nom dels adjunts (no podem agafar la ruta completa encara -> revisar)
-    adjunts = ", ".join(filename for filename, _, _ in adjunts) if adjunts else None
-    
-    from email.utils import parseaddr
+
+    # Detectar llista com remitent
     nom, correu_net = parseaddr(remitent)
-    remitent_net = correu_net  # email limpio
+    remitent_net = correu_net
+
+    reverberador = obtenir_reverberador_per_url(remitent_net)
+    if not reverberador:
+        print(f"⚠️ El remitent {remitent_net} no és cap llista coneguda.")
+        return
+
+    # Guardar reverberació
     guardar_missatge_reverberat(
         missatge_original_id,
         assumpte,
@@ -56,30 +62,17 @@ def processar_reverberacio(msg, missatge_original_id):
         cos,
         data_obj,
         in_reply_to=message_id,
-        adjunts=adjunts
+        adjunts=adjunts_str
     )
 
-    autor_original_cc = obtenir_cc_per_id(missatge_original_id)
-    if not autor_original_cc:
+    # Reenviar només al CC original
+    cc_original = obtenir_cc_per_id(missatge_original_id)
+    if not cc_original:
         print("⚠️ No s'ha trobat el CC del missatge original.")
         return
 
-    reverberador = obtenir_reverberador_per_correu(remitent_net)
+    destinataris = [cc_original]
 
-    if reverberador and len(reverberador) > 1:
-        url_reverberador = reverberador[1]
-    else:
-        url_reverberador = None
-
-    destinataris = [autor_original_cc]
-    if url_reverberador:
-        destinataris.append(url_reverberador)
-
-    # descomentar quan es vulgui posar en marxa realment, ara imprimirà en pantalla a qui reenviaria
-    #reenviar_correu(destinataris, assumpte, cos, adjunts)
-
+    # reenviar
+    reenviar_correu(destinataris, assumpte, cos, adjunts)
     print("📤 (Simulació) Es reenviaria a:", destinataris)
-    print("🔍 Reverberador trobat:", reverberador)
-    print("🔗 URL reverberador:", url_reverberador)
-    print("Assumpte:", assumpte)
-    print("Cos:", cos[:200], "..." if len(cos) > 200 else "")

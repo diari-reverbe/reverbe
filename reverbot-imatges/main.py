@@ -1,3 +1,5 @@
+# S'ha de modificar el codi perquè detecti el cc del mail enviat a diari@raio.issim.net
+# aleshores ho enviarà al cc + a la llista de correu de reverberacions
 import imaplib
 import email
 from upload import obtenir_imatge_aleatoria
