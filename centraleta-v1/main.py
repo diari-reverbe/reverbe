@@ -121,8 +121,8 @@ def llegir_i_processar():
         # 🔁 Enviar a reverberadors actius amb reply-to personalitzat
         destinataris = obtenir_destinataris_actius()
         for correu, url in destinataris:
-            print(f"📤 (Simulació) S'enviaria a: {correu} amb reply-to: {url}")
-            #reenviar_correu([correu], assumpte, cos_modificat, adjunts, reply_to=url)
+            #print(f"📤 (Simulació) S'enviaria a: {correu} amb reply-to: {url}")
+            reenviar_correu([correu], assumpte, cos_modificat, adjunts, reply_to=url)
 
     imap.logout()
     tancar_connexio()
