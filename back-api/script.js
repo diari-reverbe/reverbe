@@ -2,7 +2,7 @@ const container = document.getElementById("missatges-container");
 
 fetch("", {
   headers: {
-    "x-api-key": "" // Reemplaza esto con tu API key real
+    "x-api-key": "" 
   }
 })
   .then((res) => {
