@@ -33,3 +33,7 @@ article.missatge {
   font-size: 0.9rem;
   color: #666;
 }
+
+.cos {
+  white-space: pre-wrap;
+}

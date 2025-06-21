@@ -44,7 +44,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
 
     # Obtenir totes les reverberacions relacionades
     cur.execute("""
-        SELECT id, missatge_original_id, assumpte, remitent, cos, data, in_reply_to
+        SELECT id, missatge_original_id, assumpte, remitent, cos, data, in_reply_to, adjunts
         FROM missatges_reverberats
         WHERE missatge_original_id IN (
             SELECT id FROM missatges ORDER BY data DESC LIMIT 20
@@ -65,7 +65,8 @@ def get_missatges_complets(x_api_key: str = Header(...)):
             "remitent": r[3],
             "cos": r[4],
             "data": r[5].isoformat() if r[5] else None,
-            "in_reply_to": r[6]
+            "in_reply_to": r[6],
+            "adjunts": r[7],
         }
         rev_map.setdefault(r[1], []).append(rev)
 
