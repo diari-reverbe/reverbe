@@ -1,8 +1,8 @@
 const container = document.getElementById("missatges-container");
 
-fetch("https://back-api-production-869f.up.railway.app/missatges", {
+fetch("", {
   headers: {
-    "x-api-key": "a83D3xsyZd48Jd2B3Vp6-9xV1kTfzJhGrgDl0M-w" // Reemplaza esto con tu API key real
+    "x-api-key": "" // Reemplaza esto con tu API key real
   }
 })
   .then((res) => {
