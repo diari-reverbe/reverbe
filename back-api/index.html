@@ -1,84 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Missatges Centraleta</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    max-width: 700px;
-    margin: 2rem auto;
-    background: #f9f9f9;
-    color: #222;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  .missatge {
-    background: white;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
-  }
-  .assumpte {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 0.3rem;
-  }
-  .remitent {
-    font-style: italic;
-    color: #555;
-    margin-bottom: 0.5rem;
-  }
-  .cos {
-    white-space: pre-wrap;
-    margin-bottom: 0.5rem;
-  }
-  .data {
-    font-size: 0.8rem;
-    color: #888;
-    text-align: right;
-  }
-  .error {
-    color: red;
-    text-align: center;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Missatges desde API</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>📩 Missatges</h1>
+  <div id="missatges-container">Carregant...</div>
 
-<h1>Últimos mensajes</h1>
-<div id="missatges-container">Cargando mensajes...</div>
-
-<script>
-  const container = document.getElementById('missatges-container');
-
-  fetch('https://tuapi.com/missatges')  // URl railway
-    .then(res => {
-      if (!res.ok) throw new Error("Error al cargar datos");
-      return res.json();
-    })
-    .then(data => {
-      if (data.length === 0) {
-        container.innerHTML = "<p>No hay mensajes para mostrar.</p>";
-        return;
-      }
-      container.innerHTML = data.map(missatge => `
-        <article class="missatge">
-          <div class="assumpte">${missatge.assumpte}</div>
-          <div class="remitent">De: ${missatge.remitent}</div>
-          <div class="cos">${missatge.cos}</div>
-          <div class="data">${new Date(missatge.data).toLocaleString()}</div>
-        </article>
-      `).join('');
-    })
-    .catch(error => {
-      container.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-    });
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>

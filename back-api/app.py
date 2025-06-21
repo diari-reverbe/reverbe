@@ -6,10 +6,18 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 app = FastAPI()
 
-origins = [os.getenv("WP_SITE")]
-app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
+#origins = [os.getenv("WP_SITE")]
+#app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
+#API_KEY = os.getenv("API_KEY")
 
-API_KEY = os.getenv("API_KEY")
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todo temporalmente
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     conn = psycopg2.connect(os.getenv("DATABASE_URL"))
