@@ -20,7 +20,7 @@ def validar_api_key(x_api_key: str = Header(...)):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 @app.get("/missatges")
-def get_missatges(x_api_key: str = Header(None)):
+def get_missatges(x_api_key: str = Header(...)):
     validar_api_key(x_api_key)
     conn = get_db()
     cur = conn.cursor()
@@ -48,7 +48,7 @@ def get_missatges(x_api_key: str = Header(None)):
     ]
 
 @app.get("/reverberacions")
-def get_reverberacions(x_api_key: str = Header(None)):
+def get_reverberacions(x_api_key: str = Header(...)):
     validar_api_key(x_api_key)
     conn = get_db()
     cur = conn.cursor()
