@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Header, HTTPException
 import psycopg2, os
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,17 +6,22 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 app = FastAPI()
 
-# Permetre accés des de wordpress només
 origins = [os.getenv("WP_SITE")]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
+
+API_KEY = os.getenv("API_KEY")
 
 def get_db():
     conn = psycopg2.connect(os.getenv("DATABASE_URL"))
     return conn
 
-# configurar endpoints per connectar amb BD i obtenir els camps corresponents
+def validar_api_key(x_api_key: str = Header(None)):
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
 @app.get("/missatges")
-def get_missatges():
+def get_missatges(x_api_key: str = Header(None)):
+    validar_api_key(x_api_key)
     conn = get_db()
     cur = conn.cursor()
     cur.execute("""
@@ -43,7 +48,8 @@ def get_missatges():
     ]
 
 @app.get("/reverberacions")
-def get_reverberacions():
+def get_reverberacions(x_api_key: str = Header(None)):
+    validar_api_key(x_api_key)
     conn = get_db()
     cur = conn.cursor()
     cur.execute("""
