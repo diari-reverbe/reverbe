@@ -1,1 +1,0 @@
-worker: python centraleta-v1/main.py
