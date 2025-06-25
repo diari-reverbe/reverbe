@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 app = FastAPI()
+# per a wp_config: 
+# define('RAIO_API_KEY', 'a83D3xsyZd48Jd2B3Vp6-9xV1kTfzJhGrgDl0M-w');
+
 
 #origins = [os.getenv("WP_SITE")]
 #app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])

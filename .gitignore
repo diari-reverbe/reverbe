@@ -21,3 +21,6 @@ Thumbs.db
 
 # Archivos de subida temporal
 /tmp/
+
+# Ignorar carpeta que connecta amb backend
+back-api/

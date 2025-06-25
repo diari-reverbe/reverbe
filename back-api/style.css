@@ -1,39 +1,62 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  color: #333;
+* {
+  box-sizing: border-box;
 }
 
-h1 {
-  color: #0077cc;
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: black;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #missatges-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 article.missatge {
-  background: white;
-  border: 1px solid #ddd;
-  border-left: 5px solid #0077cc;
+  scroll-snap-align: start;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background: #ffffff;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(138, 138, 138, 1) 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+}
+
+.missatge .contenido {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
   padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 
 .missatge .assumpte {
   font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.missatge .cos {
+  white-space: pre-wrap;
   font-size: 1.1rem;
 }
 
 .missatge .data {
   font-size: 0.9rem;
-  color: #666;
+  color: #ccc;
+  margin-top: 1rem;
 }
 
-.cos {
-  white-space: pre-wrap;
+.reverberacio {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 0.5rem;
 }
