@@ -7,11 +7,11 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Conexión a PostgreSQL
+# Connexió a PostgreSQL
 conn = psycopg2.connect(DATABASE_URL)
 cursor = conn.cursor()
 
-# Tablas a vaciar
+# Taules a buidar
 tablas_a_vaciar = ["missatges", "reverberadors"]
 
 for tabla in tablas_a_vaciar:
