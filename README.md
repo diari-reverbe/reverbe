@@ -23,7 +23,7 @@ reverberadors.py → Permet afegir o gestionar manualment les adreces de reverbe
 
 eliminar.py → Script independent per buidar completament les taules missatges i reverberadors, útil per a reiniciar el sistema.
 
-
+```
                        ┌────────────────────────────-┐
                        │        FORMULARI / MAIL     │
                        │  (envia missatge al diari,  │
@@ -45,8 +45,8 @@ eliminar.py → Script independent per buidar completament les taules missatges 
              	      (2) BD      │   (3) Reenviar
                             │     │     │
          ┌──────────-───────▼─-┐  │   ┌─▼─────────────────-─┐
-     │      db.py          │  │   │     mailer.py       │
-     │---------------------│  │   │---------------------│
+         │      db.py          │  │   │     mailer.py       │
+         │---------------------│  │   │---------------------│
  		 │ - crear_tablas()    │  │   │ - reenviar_correu() │
          │ - guardar_missatge()│  │   └─────────────────────┘
          │ - obtener...()      │  │
