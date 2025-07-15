@@ -5,6 +5,8 @@
 
 Diari col·lectiu i lliure
 
+```	
+
 ## Centraleta-v1
 Centraleta automàtica subscrita a llistes de correu de Mailman3 (diari i llistes de reverberacions) que escolta la safata d'entrada i gestiona i reenvia missatges i reverberacions.
 
