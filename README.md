@@ -30,7 +30,7 @@ eliminar.py → Script independent per buidar completament les taules missatges 
                        │ a la llista de distribució) │
                        └────────────┬───────────────-┘
                                     │
-                     (1) Lectura IMAP (detecta missatges nous)
+             (1) Lectura IMAP (detecta missatges nous)
                                     │
                           ┌─────────▼─────────────┐
                           │       main.py         │
@@ -42,11 +42,11 @@ eliminar.py → Script independent per buidar completament les taules missatges 
                           │ - reenviar msg        │
                           └─┬─────┬─────┬─────────┘
                             │     │     │
-               (2) BD       │     │ (3) Reenviar
+             	      (2) BD      │   (3) Reenviar
                             │     │     │
          ┌──────────-───────▼─-┐  │   ┌─▼─────────────────-─┐
-    	 │      db.py          │  │   │     mailer.py       │
-    	 │---------------------│  │   │---------------------│
+     │      db.py          │  │   │     mailer.py       │
+     │---------------------│  │   │---------------------│
  		 │ - crear_tablas()    │  │   │ - reenviar_correu() │
          │ - guardar_missatge()│  │   └─────────────────────┘
          │ - obtener...()      │  │
