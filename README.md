@@ -24,11 +24,12 @@ reverberadors.py → Permet afegir o gestionar manualment les adreces de reverbe
 eliminar.py → Script independent per buidar completament les taules missatges i reverberadors, útil per a reiniciar el sistema.
 
 ```
-                       ┌────────────────────────────-┐
+
+                       ┌─────────────────────────────┐
                        │        FORMULARI / MAIL     │
                        │  (envia missatge al diari,  │
                        │ a la llista de distribució) │
-                       └────────────┬───────────────-┘
+                       └────────────┬────────────────┘
                                     │
              (1) Lectura IMAP (detecta missatges nous)
                                     │
@@ -42,35 +43,35 @@ eliminar.py → Script independent per buidar completament les taules missatges 
                           │ - reenviar msg        │
                           └─┬─────┬─────┬─────────┘
                             │     │     │
-             	      (2) BD      │   (3) Reenviar
+                    (2) BD  │     │  (3) Reenviar
                             │     │     │
-         ┌──────────-───────▼─-┐  │   ┌─▼─────────────────-─┐
-         │      db.py          │  │   │     mailer.py       │
-         │---------------------│  │   │---------------------│
- 		 │ - crear_tablas()    │  │   │ - reenviar_correu() │
-         │ - guardar_missatge()│  │   └─────────────────────┘
-         │ - obtener...()      │  │
-         └─────────┬───────────┘  │
-                   │              │
-       (4) Missatges reverberats  │
-                   │              │
-           ┌───────▼──────-───┐   │
-           │ reverberacions.py│   │
-           │------------------│   │
-           │ - processar_     │   │
-           │   reverberacio() │   │
-           │ - guarda a BD    │   │
-           │ - reenvia a CC   │───┘
-           └────────┬─────────┘
+         ┌──────────────────▼─────┐     ┌─▼──────────────────┐
+         │        db.py           │     │     mailer.py      │
+         │------------------------│     │--------------------│
+         │ - crear_tablas()       │     │ - reenviar_correu()│
+         │ - guardar_missatge()   │     └────────────────────┘
+         │ - obtener...()         │
+         └─────────┬──────────────┘
+                   │
+       (4) Missatges reverberats
+                   │
+           ┌───────▼─────────────┐
+           │   reverberacions.py │
+           │---------------------│
+           │ - processar_        │
+           │   reverberacio()    │
+           │ - guarda a BD       │
+           │ - reenvia a CC      │
+           └────────┬────────────┘
                     │
-    (5) Gestió manual reverberadors ───── Eliminar contingut taules
-                    │			            │	
-           ┌────────▼─────────┐            ┌────────▼─────────┐
-           │ reverberadors.py │            │   eliminar.py    │
-           │------------------│            │------------------│
-           │ - insertar       │            │ - TRUNCATE       │
-           │   reverberadors  │            │   missatges      │
-           └──────────────────┘            │ - TRUNCATE       │
-				         				   │   reverberadors  │
-       				         			   └──────────────────┘
- 
+(5) Gestió manual reverberadors        Eliminar contingut taules
+                    │                               │
+           ┌────────▼──────────┐        ┌───────────▼────────┐
+           │  reverberadors.py │        │     eliminar.py    │
+           │-------------------│        │--------------------│
+           │ - insertar        │        │ - TRUNCATE         │
+           │   reverberadors   │        │   missatges        │
+           └───────────────────┘        │ - TRUNCATE         │
+                                        │   reverberadors    │
+                                        └────────────────────┘
+```
