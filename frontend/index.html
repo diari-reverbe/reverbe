@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAIO Mozilla</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<button id="btn-panel" class="icono-panel">
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    version="1.1" 
+    viewBox="0 0 68.2 66.5"
+    width="50" 
+    height="50" 
+    fill="currentColor" 
+    stroke="currentColor" 
+    stroke-width="1"
+  >
+    <rect 
+      x="1" y="1.5" 
+      width="66" height="64" 
+      rx="11.5" ry="11.5"
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2"
+    />
+
+    <path 
+      d="M25.6,12c-3.1,0-5.6,2.3-5.9,5.3h-6.2c-.2,0-.4,0-.5.2-.1.1-.2.3-.2.5,0,.4.3.7.7.7h6.2c.3,3,2.9,5.3,5.9,5.3s5.6-2.3,5.9-5.3h21.2c.4,0,.7-.3.7-.7s0-.4-.2-.5c-.1-.1-.3-.2-.5-.2h-21.2c-.3-3-2.9-5.3-5.9-5.3h0ZM25.6,13.3c2.6,0,4.6,2.1,4.6,4.7s-2.1,4.6-4.6,4.6-4.7-2.1-4.7-4.6,2.1-4.6,4.7-4.7ZM40.6,27.3c-3.1,0-5.6,2.3-5.9,5.3H13.5c-.4,0-.7.3-.7.7s0,.4.2.5c.1.1.3.2.5.2h21.2c.3,3,2.9,5.3,5.9,5.3s5.6-2.3,5.9-5.3h6.2c.2,0,.4,0,.5-.2.1-.1.2-.3.2-.5,0-.4-.3-.7-.7-.7h-6.2c-.3-3-2.9-5.3-5.9-5.3h.1ZM40.6,28.6c2.6,0,4.6,2.1,4.6,4.6s-2.1,4.6-4.6,4.6-4.7-2.1-4.7-4.6,2.1-4.6,4.7-4.6ZM25.6,42.6c-3.1,0-5.6,2.3-5.9,5.3h-6.2c-.2,0-.4,0-.5.2-.1.1-.2.3-.2.5,0,.4.3.7.7.7h6.2c.3,3,2.9,5.3,5.9,5.3s5.6-2.3,5.9-5.3h21.2c.4,0,.7-.3.7-.7s0-.4-.2-.5c-.1-.1-.3-.2-.5-.2h-21.2c-.3-3-2.9-5.3-5.9-5.3h0ZM25.6,43.9c2.6,0,4.6,2.1,4.6,4.6s-2.1,4.6-4.6,4.6-4.7-2.1-4.7-4.6,2.1-4.6,4.7-4.6Z" 
+      fill="currentColor"
+    />
+  </svg>
+</button>
+
+<div id="panel-control" class="panel-oculto">
+  <label>Ordre:
+    <select id="orden">
+      <option value="cronologico">Cronològic</option>
+      <option value="inverso">Invers</option>
+      <option value="aleatorio">A l'atzar</option>
+    </select>
+  </label>
+
+  <label>Mostrar autors:
+    <input type="checkbox" id="mostrar-autores" checked>
+  </label>
+
+  <label>Estil visual:
+    <select id="estilo-visual">
+      <option value="soft">Soft</option>
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+      <option value="radical">Radical</option>
+      <option value="cambiante">Canviant</option>
+    </select>
+  </label>
+
+  <label>Composició:
+    <select id="composicion">
+      <option value="scroll">Scroll</option>
+      <option value="post-it">Post-it</option>
+      <option value="1-1">1:1</option>
+      <option value="desplegar">Desplegar</option>
+    </select>
+  </label>
+
+  <label>Blindscroll:
+    <input type="checkbox" id="blindscroll">
+  </label>
+
+  <label>Filtrar per dia:
+    <select id="filtro-dia" multiple>
+      <option value="lunes">Dilluns</option>
+      <option value="martes">Dimarts</option>
+      <option value="miércoles">Dimecres</option>
+      <option value="jueves">Dijous</option>
+      <option value="viernes">Divendres</option>
+      <option value="sábado">Dissabte</option>
+      <option value="domingo">Diumenge</option>
+    </select>
+  </label>
+
+  <button id="cerrar-panel">Tanca</button>
+</div>
+
+
+  <div id="missatges-container" class="container">
+    <p>Carregant missatges...</p>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
+
+
+

@@ -11,7 +11,7 @@ app = FastAPI()
 
 #origins = [os.getenv("WP_SITE")]
 #app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
-API_KEY = os.getenv("API_KEY")
+API_KEY = os.getenv("a83D3xsyZd48Jd2B3Vp6-9xV1kTfzJhGrgDl0M-w")
 
 from fastapi.middleware.cors import CORSMiddleware
 

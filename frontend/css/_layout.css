@@ -1,0 +1,59 @@
+/* css/_layout.css */
+#missatges-container {
+  padding:5% 2%;
+}
+
+/* Elemento base del icono/botón del panel */
+.icono-panel {
+  position: fixed;
+  margin-top: 1%;
+  right:1em;
+  font-size: 1.8em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Panel flotante (Caja que contiene los controles) */
+#panel-control {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  width: 250px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: none; /* oculto por defecto */
+}
+
+#panel-control label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+#panel-control button {
+  margin-top: 1em;
+}
+
+.panel-visible {
+  display: block !important;
+}
+
+/* --------------------------------- */
+/* COMPOSICIONES (CONTENEDOR) */
+/* --------------------------------- */
+.scroll { display: block; }
+
+.container.post-it { 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 15px; 
+  padding: 0px;
+}
+
+.one-one { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+.desplegar { display: block; cursor: pointer; }

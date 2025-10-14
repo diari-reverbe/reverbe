@@ -1,0 +1,94 @@
+/* css/_componentes.css */
+/* --------------------------------- */
+/* ESTILOS DEL BOTÓN DEL PANEL */
+/* --------------------------------- */
+#btn-panel {
+  /* Usa la variable de color del tema definida en _temas.css */
+  color: var(--color-texto-principal, #333); 
+  
+  /* Se duplican propiedades de posicionamiento para asegurar la especificidad sobre .icono-panel */
+  position: fixed;
+  margin-top: 1%;
+  right:1em;
+  font-size: 1.8em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#btn-panel:hover {
+  color: #007bff;
+}
+
+/* --------------------------------- */
+/* ESTILOS DE MENSAJES BASE */
+/* --------------------------------- */
+.missatge {
+  border: 1px solid var(--color-borde-principal);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: inherit; 
+  color: inherit; 
+}
+
+/* Estilo de las reverberaciones */
+.reverberacio {
+  border-left: 4px solid var(--color-borde-principal, #434180);
+  margin-left: 20px;
+  padding: 10px;
+  color: inherit; 
+  background-color: var(--color-fondo-rev, #F0F0F0);
+  margin: 10px 0 0 0;
+  border-radius: 4px;
+}
+
+/* --------------------------------- */
+/* POST-IT INDIVIDUAL (TARJETA) */
+/* --------------------------------- */
+.missatge.post-it { 
+  /* Anula el margin-bottom: 15px de .missatge para usar el 'gap' del Grid */
+  margin: 0;
+  padding: 15px;
+  max-height: 300px;           
+  overflow: hidden;             
+  position: relative;           
+  cursor: pointer;              
+  border: 1px solid var(--color-borde-principal);
+  border-radius: 8px;
+  background-color: #fffa; 
+}
+
+/* Ajuste del fondo para modo DARK */
+.dark .missatge.post-it {
+  background-color: #333; 
+}
+
+/* Degradado "Ver Más" (Base Clara) */
+.missatge.post-it::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px; 
+  background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)); 
+  pointer-events: none; 
+  transition: opacity 0.3s;
+}
+
+/* Degradado "Ver Más" en modo Dark */
+.dark .missatge.post-it::after {
+  background: linear-gradient(to top, rgba(51, 51, 51, 1), rgba(51, 51, 51, 0)); 
+}
+
+/* Estado Expandido */
+.missatge.post-it.expandido {
+  max-height: none;         
+  overflow: visible;        
+}
+
+.missatge.post-it.expandido::after {
+  opacity: 0;               
+}

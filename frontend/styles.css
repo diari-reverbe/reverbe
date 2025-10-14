@@ -1,0 +1,6 @@
+/* styles.css */
+/* Importar los parciales en orden de dependencia/especificidad */
+@import url('css/_base.css');
+@import url('css/_temas.css');
+@import url('css/_layout.css');
+@import url('css/_componentes.css');/* styles.css */

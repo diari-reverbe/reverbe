@@ -1,0 +1,46 @@
+/* css/_temas.css */
+
+/* ========================================= */
+/* ESTILOS VISUALES Y VARIABLES (Aplicados al body) */
+/* ========================================= */
+
+.soft { 
+  background: #fff; 
+  color: #0B02FF; 
+  --color-texto-principal: #0B02FF; 
+  --color-borde-principal: #ddd; 
+  --color-fondo-rev: #f8f8f8;
+}
+
+.dark { 
+  background: #222; 
+  color: #eee; 
+  --color-texto-principal: #eee; 
+  --color-borde-principal: #444;
+  --color-fondo-rev: #222; 
+}
+
+.light { 
+  background: #f9f9f9; 
+  color: #111; 
+  --color-texto-principal: #111;
+  --color-borde-principal: #ccc;
+  --color-fondo-rev: #eee; 
+}
+
+.radical { 
+  background: #ff0; 
+  color: #f00; 
+  font-weight: bold; 
+  --color-texto-principal: #f00;
+  --color-borde-principal: #f00; 
+  --color-fondo-rev: #fff066;
+}
+
+.cambiante { 
+  background: linear-gradient(90deg,#f06,#0ff); 
+  color: #000; 
+  --color-texto-principal: #000;
+  --color-borde-principal: #f06;
+  --color-fondo-rev: #ccc;
+}
