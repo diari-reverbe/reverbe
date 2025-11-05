@@ -1,0 +1,23 @@
+# Entornos virtuales
+venv/
+.env/
+*.env
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración y logs
+*.log
+
+# Archivos de bases de datos locales o temporales
+*.sqlite3
+*.db
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de subida temporal
+/tmp/
