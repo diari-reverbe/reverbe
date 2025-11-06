@@ -3,6 +3,8 @@ import Button from "./Button";
 import Modal from "./Modal";
 import clsx from "clsx";
 import { useTheme } from "../hooks/useThemeContext";
+import parse from "html-react-parser";
+
 
 export default function Card({ data, variant = "scroll", dataEnabled = false, authorEnabled = false }) {
   const collapsible = variant === "postit";
@@ -170,7 +172,7 @@ export default function Card({ data, variant = "scroll", dataEnabled = false, au
         <h3
           className="text-base sm:text-lg md:text-xl font-semibold"
           style={{ color: textColor }}
-        >. 
+        >
           {data.assumpte}
         </h3>
         <p
@@ -179,15 +181,38 @@ export default function Card({ data, variant = "scroll", dataEnabled = false, au
         >
           {data.remitent} · {formatDate(data.data)}
         </p>
-        <pre
-          className={clsx(
-            "whitespace-pre-wrap text-sm sm:text-base leading-relaxed",
-            collapsible && "overflow-hidden text-ellipsis h-24"
-          )}
-          style={{ color: textColor }}
-        >
-          {collapsible ? truncateText(data.cos, 25) : data.cos}
-        </pre>
+<div
+  className={clsx(
+    "text-sm sm:text-base leading-relaxed",
+    collapsible && "overflow-hidden text-ellipsis h-24"
+  )}
+  style={{ color: textColor }}
+>
+  {collapsible
+    ? truncateText(data.cos.replace(/<[^>]+>/g, ""), 25)
+    : parse(data.cos || "")}
+</div>
+{data.adjunts && (
+  <div className="mt-3">
+    {/\.(jpg|jpeg|png|gif|webp)$/i.test(data.adjunts) ? (
+      <img
+        src={data.adjunts}
+        alt="Adjunt"
+        className="max-w-full rounded-md mt-2"
+      />
+    ) : (
+      <a
+        href={data.adjunts}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline break-all"
+      >
+        {data.adjunts}
+      </a>
+    )}
+  </div>
+)}
+
       </div>
 
       {variant === "postit" && (
@@ -228,6 +253,27 @@ export default function Card({ data, variant = "scroll", dataEnabled = false, au
             {dataEnabled && authorEnabled && " · "}
             {authorEnabled && rev.remitent}
           </p>
+          {rev.adjunts && (
+  <div className="mt-2">
+    {/\.(jpg|jpeg|png|gif|webp)$/i.test(rev.adjunts) ? (
+      <img
+        src={rev.adjunts}
+        alt="Adjunt"
+        className="max-w-full rounded-md mt-2"
+      />
+    ) : (
+      <a
+        href={rev.adjunts}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline break-all"
+      >
+        {rev.adjunts}
+      </a>
+    )}
+  </div>
+)}
+
           <pre className="whitespace-pre-wrap text-sm">{rev.cos}</pre>
         </div>
       );

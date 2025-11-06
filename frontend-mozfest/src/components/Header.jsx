@@ -62,7 +62,7 @@ function Header({
       {open && (
         <div
           ref={dropdownRef}
-          className="absolute top-full left-0 w-full max-h-[80vh] overflow-y-auto animate-fade-in-down bg-(--primary) z-40"
+className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto animate-fade-in-down bg-(--primary) z-40"
         >
           <div className="flex flex-col items-center justify-center gap-8 p-6">
             <div className="flex flex-col items-center gap-2">

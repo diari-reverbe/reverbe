@@ -62,7 +62,7 @@ function ScrollPage() {
         setAuthorOrder={setAuthorOrder}
       />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        <h1 className="text-2xl font-bold mt-8 mb-4">Reverbe - Missatges</h1>
+        <h1 className="text-2xl font-bold mt-8 mb-4">RAIO MozFest - Missatges</h1>
 
         {sortedMessages.map((msg) => (
           <Card key={msg.id} data={msg} variant="scroll" dataEnabled={dataEnabled} authorEnabled={authorEnabled} />

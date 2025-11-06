@@ -1,41 +1,47 @@
-from fastapi import FastAPI, Depends, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 import psycopg2, os
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 app = FastAPI()
-# per a wp_config: 
-# define('RAIO_API_KEY', 'apikey');
 
-#origins = [os.getenv("WP_SITE")]
-#app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
-API_KEY = os.getenv("API_KEY")
+# --- 🔑 API keys i connexions ---
+API_KEY = os.getenv("API_KEY")  #  original
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-from fastapi.middleware.cors import CORSMiddleware
+API_KEY_ALT = os.getenv("API_KEY_ALT")  #  nueva
+DATABASE_URL_ALT = os.getenv("DATABASE_URL_ALT")
 
+# --- CORS ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite todo temporalmente
+    allow_origins=["*"], 
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-def get_db():
-    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
-    return conn
-
-def validar_api_key(x_api_key: str = Header(...)):
-    if x_api_key != API_KEY:
+# --- connexió dinàmica ---
+def get_db_for_key(x_api_key: str):
+    """
+    Devuelve la conexión a la BD correspondiente
+    según la API key recibida en el header.
+    """
+    if x_api_key == API_KEY:
+        return psycopg2.connect(DATABASE_URL)
+    elif x_api_key == API_KEY_ALT:
+        return psycopg2.connect(DATABASE_URL_ALT)
+    else:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
+
+# --- Endpoint principal ---
 @app.get("/missatges_complets")
 def get_missatges_complets(x_api_key: str = Header(...)):
-    validar_api_key(x_api_key)
-    conn = get_db()
+    conn = get_db_for_key(x_api_key)
     cur = conn.cursor()
 
-    # Obtenir missatges
+    # Missatges principals
     cur.execute("""
         SELECT id, assumpte, remitent, cos, data, adjunts, message_id, cc
         FROM missatges
@@ -44,7 +50,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
     """)
     missatges = cur.fetchall()
 
-    # Obtenir totes les reverberacions relacionades
+    # Reverberacions
     cur.execute("""
         SELECT id, missatge_original_id, assumpte, remitent, cos, data, in_reply_to, adjunts
         FROM missatges_reverberats
@@ -57,7 +63,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
     cur.close()
     conn.close()
 
-    # Reorganitzar reverberacions per id de missatge original
+    # Mapejar reverberacions
     rev_map = {}
     for r in reverberacions:
         rev = {
@@ -72,7 +78,6 @@ def get_missatges_complets(x_api_key: str = Header(...)):
         }
         rev_map.setdefault(r[1], []).append(rev)
 
-    #retorn de resultats
     return [
         {
             "id": m[0],
@@ -83,7 +88,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
             "adjunts": m[5],
             "message_id": m[6],
             "cc": m[7],
-            "reverberacions": rev_map.get(m[0], [])
+            "reverberacions": rev_map.get(m[0], []),
         }
         for m in missatges
     ]
