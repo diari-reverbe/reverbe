@@ -43,7 +43,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
 
     # Missatges principals
     cur.execute("""
-        SELECT id, assumpte, remitent, cos, data, adjunts, message_id, cc
+        SELECT id, assumpte, remitent, cc, data, adjunts, message_id
         FROM missatges
         ORDER BY data DESC
         LIMIT 20
@@ -78,17 +78,18 @@ def get_missatges_complets(x_api_key: str = Header(...)):
         }
         rev_map.setdefault(r[1], []).append(rev)
 
-    return [
-        {
-            "id": m[0],
-            "assumpte": m[1],
-            "remitent": m[2],
-            "cos": m[3],
-            "data": m[4].isoformat() if m[4] else None,
-            "adjunts": m[5],
-            "message_id": m[6],
-            "cc": m[7],
-            "reverberacions": rev_map.get(m[0], []),
-        }
-        for m in missatges
-    ]
+        return [
+            {
+                "id": m[0],
+                "assumpte": m[1],
+                # fa servir cc si existeix, si no remitent
+                "remitent": m[3] if m[3] else m[2],
+                "cos": None,
+                "data": m[4].isoformat() if m[4] else None,
+                "adjunts": m[5],
+                "message_id": m[6],
+                "cc": m[3],
+                "reverberacions": rev_map.get(m[0], []),
+            }
+            for m in missatges
+        ]
