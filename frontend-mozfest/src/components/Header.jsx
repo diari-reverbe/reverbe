@@ -2,10 +2,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import Navbar from "./Navbar";
 import Button from "./Button";
-import filterIcon from "../assets/filter-icon.svg";
 import { useTheme } from "../hooks/useThemeContext";
 import Metadata from "./Metadata";
-import Next from "./Next";
+import FilterIcon from "./icons/FilterIcon";
 
 function Header({
   dataEnabled,
@@ -45,11 +44,11 @@ function Header({
       <div className="flex items-center justify-between px-4 py-2 h-14">
         <button
           ref={buttonRef}
-          onClick={() => setOpen(true)}
+          onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle navigation and filters"
-          className="p-1 z-50 relative"
+          className="cursor-pointer p-1 z-50 relative"
         >
-          <img src={filterIcon} alt="Filter icon" className="w-10 h-10" />
+          <FilterIcon className="w-6 h-6" />
         </button>
 
         <div className="flex justify-center flex-1">
@@ -62,18 +61,18 @@ function Header({
       {open && (
         <div
           ref={dropdownRef}
-className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto animate-fade-in-down bg-(--primary) z-40"
+          className="absolute top-full left-0 w-full max-h-[80vh] overflow-y-auto animate-fade-in-down bg-(--primary) z-40"
         >
           <div className="flex flex-col items-center justify-center gap-8 p-6">
             <div className="flex flex-col items-center gap-2">
-              <span className="text-lg font-bold">estil</span>
+              <span className="text-lg font-bold">style</span>
               <div className="flex items-center gap-3 relative">
                 <Button
                   variant="primary"
                   className={theme === "normal" ? "overline decoration-[3px]" : ""}
                   onClick={() => setTheme("normal")}
                 >
-                  clar
+                  light
                 </Button>
 
                 <Button
@@ -84,7 +83,7 @@ className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto ani
                     randomizeColors();
                   }}
                 >
-                  canviant
+                  moody
                 </Button>
 
                 <Button
@@ -92,7 +91,7 @@ className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto ani
                   className={theme === "fosc" ? "overline decoration-[3px]" : ""}
                   onClick={() => setTheme("fosc")}
                 >
-                  fosc
+                  dark
                 </Button>
 
                 <Button
@@ -100,7 +99,7 @@ className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto ani
                   className={theme === "contrast" ? "overline decoration-[3px]" : ""}
                   onClick={() => setTheme("contrast")}
                 >
-                  alt contrast
+                  hi-contrast
                 </Button>
               </div>
             </div>
@@ -115,7 +114,6 @@ className="fixed top-14 left-0 w-full h-[calc(100vh-3.5rem)] overflow-y-auto ani
               authorOrder={authorOrder}
               setAuthorOrder={setAuthorOrder}
             />
-            <Next />
           </div>
         </div>
       )}

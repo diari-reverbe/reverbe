@@ -17,6 +17,8 @@ body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: var(--secondary);
   transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body.fosc {
@@ -42,4 +44,17 @@ body.contrast {
 
   background-color: var(--yellow);
   color: var(--primary);
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+* {
+  max-width: 100%;
+  box-sizing: border-box;
 }

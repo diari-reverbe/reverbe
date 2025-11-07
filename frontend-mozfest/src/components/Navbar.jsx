@@ -15,6 +15,7 @@ export default function Navbar() {
           key={link.to}
           to={link.to}
           variant="primary"
+          className="whitespace-nowrap"
         >
           {link.label}
         </Button>
