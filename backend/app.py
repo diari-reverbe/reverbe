@@ -6,11 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 app = FastAPI()
 
-# --- 🔑 API keys i connexions ---
-API_KEY = os.getenv("API_KEY")  #  original
+# --- API keys i connexions ---
+API_KEY = os.getenv("API_KEY")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-API_KEY_ALT = os.getenv("API_KEY_ALT")  #  nueva
+API_KEY_ALT = os.getenv("API_KEY_ALT")
 DATABASE_URL_ALT = os.getenv("DATABASE_URL_ALT")
 
 # --- CORS ---
@@ -23,10 +23,6 @@ app.add_middleware(
 
 # --- connexió dinàmica ---
 def get_db_for_key(x_api_key: str):
-    """
-    Devuelve la conexión a la BD correspondiente
-    según la API key recibida en el header.
-    """
     if x_api_key == API_KEY:
         return psycopg2.connect(DATABASE_URL)
     elif x_api_key == API_KEY_ALT:
@@ -43,7 +39,7 @@ def get_missatges_complets(x_api_key: str = Header(...)):
 
     # Missatges principals
     cur.execute("""
-        SELECT id, assumpte, remitent, cos, data, adjunts, message_id, cc
+        SELECT id, assumpte, remitent, cc, data, adjunts, message_id
         FROM missatges
         ORDER BY data DESC
         LIMIT 20
@@ -82,12 +78,11 @@ def get_missatges_complets(x_api_key: str = Header(...)):
         {
             "id": m[0],
             "assumpte": m[1],
-            "remitent": m[2],
-            "cos": m[3],
+            "remitent": m[3] if m[3] else m[2],  # utilitza 'cc', si no 'remitent'
             "data": m[4].isoformat() if m[4] else None,
             "adjunts": m[5],
             "message_id": m[6],
-            "cc": m[7],
+            "cc": m[3],
             "reverberacions": rev_map.get(m[0], []),
         }
         for m in missatges
